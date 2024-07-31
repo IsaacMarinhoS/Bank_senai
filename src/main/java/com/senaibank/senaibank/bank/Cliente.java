@@ -11,8 +11,7 @@ import lombok.Data;
 @Table(name = "clientes")
 public class Cliente {
 
-    public Cliente(String nome2, String cpf2, String telefone2, Endereco endereco2, String email2, LocalDate dataNascimento2) {
-    }
+    
 
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

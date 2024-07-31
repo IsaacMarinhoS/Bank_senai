@@ -1,6 +1,5 @@
 package com.senaibank.senaibank.bank;
 
-import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Data;
@@ -11,17 +10,17 @@ import lombok.Data;
 @Table(name = "clientes")
 public class ContaBank{
 
-
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String numeroDaConta;
 
-    @Column()
-    private Double saldo;
 
-    @ManyToMany
+    private Double saldo = 0.0;
+
+    @OneToOne
+    @JoinColumn( name = "cliente_id",referencedColumnName = "id")
     private Cliente cliente;
     
 }
