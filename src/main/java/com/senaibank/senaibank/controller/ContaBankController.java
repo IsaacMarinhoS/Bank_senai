@@ -25,8 +25,8 @@ public class ContaBankController {
     }
 
     @GetMapping("/{numeroConta}")
-    public ResponseEntity<ContaBank> findByNumeroConta(@PathVariable String numeroConta) {
-        return ResponseEntity.ok(contaBankService.findByNumeroConta(numeroConta));
+    public ResponseEntity<ContaBank> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(contaBankService.findById(id));
     }
 
     @PutMapping("/{id}")

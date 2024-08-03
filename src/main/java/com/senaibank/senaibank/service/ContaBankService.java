@@ -20,8 +20,8 @@ public class ContaBankService {
         return contaBankRepository.findAll();
     }
 
-    public ContaBank findByNumeroConta(String numeroConta) {
-        return contaBankRepository.findByNumeroConta(numeroConta);
+    public ContaBank findById(Long id) {
+        return contaBankRepository.findById(id).orElse(null);
     }
 
     public ContaBank update(ContaBank contaBank) {
