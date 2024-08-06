@@ -5,24 +5,20 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Data;
 
-@Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 @Entity
+@Data
 @Table(name = "clientes")
 public class Cliente {
-
-    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 11)
+    @Column(nullable = false, length = 11, unique = true)
     private String cpf;
-
-    @OneToOne
-    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    private Endereco endereco;
 
     @Column(length = 11)
     private String telefone;
@@ -31,6 +27,10 @@ public class Cliente {
     private String email;
 
     @Column(name = "data_nascimento")
-    private LocalDate dataNascimento;
+    private LocalDate datanascimento;
+
+    @OneToOne
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
+    private Endereco endereco;
 
 }

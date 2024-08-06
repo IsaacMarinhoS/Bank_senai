@@ -1,7 +1,6 @@
 package com.senaibank.senaibank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.senaibank.senaibank.bank.Transacao;
@@ -23,6 +22,7 @@ public class TransacaoController {
     public ResponseEntity<List<Transacao>> getAll(){
         return ResponseEntity.ok(transacaoService.getAll());
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Transacao> getByid(@PathVariable Long id){
         return ResponseEntity.ok(transacaoService.getById(id));
@@ -35,6 +35,17 @@ public class TransacaoController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         transacaoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/extrato/{id}")
+    public ResponseEntity<List<Transacao>> getExtrato (@PathVariable Long idConta) {
+        List<Transacao> extrato = transacaoService.getExtrato(idConta);
+
+        if (extrato.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(extrato);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.senaibank.senaibank.bank;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -17,6 +16,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "transacoes")
+
 public class Transacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,15 +26,18 @@ public class Transacao {
     @Enumerated
     private TipoTransacao tipoTransacao;
 
-    @Column(nullable = false)
-    private double valor;
-
     @ManyToOne
     @JoinColumn(name = "conta_origem", referencedColumnName = "id")
-    private ContaBank contaOrigem;
+    private Conta contaOrigem;
 
     @ManyToOne
     @JoinColumn(name = "conta_destino", referencedColumnName = "id")
-    private ContaBank contaDestino;
+    private Conta contaDestino;
+
+    public Object getValor() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getValor'");
+    }
 
 }
+

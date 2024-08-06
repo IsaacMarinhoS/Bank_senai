@@ -41,7 +41,7 @@ public class ClienteService {
         clienteExistente.setEndereco(cliente.getEndereco());
         clienteExistente.setTelefone(cliente.getTelefone());
         clienteExistente.setEmail(cliente.getEmail());
-        clienteExistente.setDataNascimento(cliente.getDataNascimento());
+        clienteExistente.setDatanascimento(cliente.getDatanascimento());
 
         return clienteRepository.save(clienteExistente);
     }

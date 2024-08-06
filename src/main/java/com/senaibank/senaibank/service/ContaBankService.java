@@ -1,6 +1,6 @@
 package com.senaibank.senaibank.service;
 
-import com.senaibank.senaibank.bank.ContaBank;
+import com.senaibank.senaibank.bank.Conta;
 import com.senaibank.senaibank.repository.ContaBankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,23 +12,28 @@ public class ContaBankService {
     @Autowired
     private ContaBankRepository contaBankRepository;
 
-    public ContaBank create(ContaBank contaBank) {
+    public Conta create(Conta contaBank) {
         return contaBankRepository.save(contaBank);
     }
 
-    public List<ContaBank> findAll() {
+    public List<Conta> findAll() {
         return contaBankRepository.findAll();
     }
 
-    public ContaBank findById(Long id) {
+    public Conta findById(Long id) {
         return contaBankRepository.findById(id).orElse(null);
     }
 
-    public ContaBank update(ContaBank contaBank) {
+    public Conta update(Conta contaBank) {
         return contaBankRepository.save(contaBank);
     }
 
     public void delete(Long id) {
         contaBankRepository.deleteById(id);
     }
+
+    public List<Conta> getAll() {
+        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+    }
+
 }
