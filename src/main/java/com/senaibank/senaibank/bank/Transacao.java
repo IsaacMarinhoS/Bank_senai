@@ -1,5 +1,6 @@
 package com.senaibank.senaibank.bank;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -16,28 +17,28 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "transacoes")
-
 public class Transacao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private double valor;
+
+    // Tipo de transação é um ENUM
     @Column(nullable = false)
     @Enumerated
     private TipoTransacao tipoTransacao;
 
-    @ManyToOne
-    @JoinColumn(name = "conta_origem", referencedColumnName = "id")
-    private Conta contaOrigem;
+    @Column(nullable = false)
+    private LocalDateTime data = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "conta_destino", referencedColumnName = "id")
-    private Conta contaDestino;
+    @JoinColumn(name = "conta_origem_id", referencedColumnName = "numeroConta")
+    private ContaBancaria contaOrigem;
 
-    public Object getValor() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getValor'");
-    }
+    @ManyToOne
+    @JoinColumn(name = "conta_destino_id", referencedColumnName = "numeroConta")
+    private ContaBancaria contaDestino;
 
 }
-

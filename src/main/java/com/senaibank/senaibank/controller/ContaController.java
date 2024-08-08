@@ -1,61 +1,59 @@
 package com.senaibank.senaibank.controller;
+import java.util.List;
 
-import com.senaibank.senaibank.bank.Conta;
-import com.senaibank.senaibank.service.ContaBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.senaibank.senaibank.bank.ContaBancaria;
+import com.senaibank.senaibank.service.ContaService;
+
 
 @RestController
 @RequestMapping("contas")
 public class ContaController {
 
     @Autowired
-    private ContaBankService contaService;
-    
-    @PostMapping
-    public ResponseEntity<Conta> criarConta(@RequestBody Conta conta){
-        Conta novaConta = contaService.create(conta);
-        return ResponseEntity.ok(novaConta);
-    }
+    private ContaService contaBancariaService;
+
     @GetMapping
-    public ResponseEntity<List<Conta>> listadeContas(){
-        List<Conta> contas = contaService.getAll();
-        return ResponseEntity.ok(contas);
-        
+    public ResponseEntity<List<ContaBancaria>> getAll() {
+        return ResponseEntity.ok(contaBancariaService.getAll());
     }
+
     
+
     @GetMapping("/{id}")
-    public ResponseEntity<Conta> buscarContasPorId(@PathVariable Long id){
-     Conta conta = contaService.findById(id);
-     if (conta == null) {
-        return ResponseEntity.notFound().build();
-         }
-         return ResponseEntity.ok(conta);
+    public ResponseEntity<ContaBancaria> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(contaBancariaService.getById(id));
     }
+
+    @PostMapping
+    public ResponseEntity<ContaBancaria> create(@RequestBody ContaBancaria contaBancaria) {
+        return ResponseEntity.ok(contaBancariaService.create(contaBancaria));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Conta> atualizarConta(@PathVariable Long id, @RequestBody Conta contaAtualizada){
-       Conta conta = contaService.findById(id);
-       if (conta == null) {
-        return null;
+    public ResponseEntity<ContaBancaria> update(@PathVariable Long id, @RequestBody ContaBancaria contaNova) {
+        ContaBancaria contaExistente = contaBancariaService.getById(id);
+
+        if (contaExistente == null) {
+            return ResponseEntity.notFound().build();
         }
-        conta.setSaldo(contaAtualizada.getSaldo());
-        return ResponseEntity.ok(conta);
 
-      
+        return ResponseEntity.ok(contaBancariaService.update(contaExistente, contaNova));
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarConta(@PathVariable Long id){
-       Conta conta = contaService.findById(id);
-       if (conta == null) {
-        return ResponseEntity.notFound().build();
-        
-       }
-       contaService.delete(id);
-       return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        contaBancariaService.delete(id);
+        return ResponseEntity.noContent().build();
     }
-
-
 }

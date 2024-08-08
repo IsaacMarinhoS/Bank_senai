@@ -1,51 +1,74 @@
 package com.senaibank.senaibank.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.senaibank.senaibank.bank.Transacao;
+import com.senaibank.senaibank.service.ContaService;
 import com.senaibank.senaibank.service.TransacaoService;
-import java.util.List;
+
+
+
+@RestController
+@RequestMapping("transacoes")
 public class TransacaoController {
 
     @Autowired
-    TransacaoService transacaoService;
+    private TransacaoService transacaoService;
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody Transacao transacao){
-        if( transacao.getContaOrigem().temSaldo(transacao.getValor()) ) {
-            return ResponseEntity.ok(transacaoService.create(transacao));
-        }
-        return ResponseEntity.badRequest().body("Saldo insuficiente");
-    }
+    @Autowired
+    private ContaService contaBancariaService;
+
     @GetMapping
-    public ResponseEntity<List<Transacao>> getAll(){
+    public ResponseEntity<List<Transacao>> getAll() {
         return ResponseEntity.ok(transacaoService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transacao> getByid(@PathVariable Long id){
+    public ResponseEntity<Transacao> getById(@PathVariable Long id) {
         return ResponseEntity.ok(transacaoService.getById(id));
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<Transacao> update(@PathVariable Long id, @RequestBody Transacao transacao){
-        return ResponseEntity.ok(transacaoService.update(id, transacao));
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-        transacaoService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/extrato/{id}")
     public ResponseEntity<List<Transacao>> getExtrato (@PathVariable Long idConta) {
         List<Transacao> extrato = transacaoService.getExtrato(idConta);
-
+        
         if (extrato.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(extrato);
     }
+
+    @PostMapping
+    public ResponseEntity<Transacao> create(@RequestBody Transacao transacao) {
+        // Verificar se alguma das contas da transação são nulas
+        if(contaBancariaService.temSaldo(transacao)){
+            return ResponseEntity.ok(transacaoService.create(transacao));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Transacao> update(@PathVariable Long id, @RequestBody Transacao transacao) {
+        return ResponseEntity.ok(transacaoService.update(id, transacao));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        transacaoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+    
 
 }

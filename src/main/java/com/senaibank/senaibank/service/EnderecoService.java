@@ -37,4 +37,9 @@ public class EnderecoService {
         return endereco;
     }
 
+    public Object getEnderecoByCep(String cep) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnderecoByCep'");
+    }
+
 }
