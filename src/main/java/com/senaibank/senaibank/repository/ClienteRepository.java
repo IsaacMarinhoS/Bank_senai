@@ -10,7 +10,6 @@ import com.senaibank.senaibank.bank.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    // Método para buscar somente os clientes ativos (GetAllAtivos)
     List<Cliente> findByClienteAtivoTrue();
 
     @Query("SELECT new com.api.senai.dto.ClienteDTO(c.id, c.nome) FROM Cliente c")

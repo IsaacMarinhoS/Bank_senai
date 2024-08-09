@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.senaibank.senaibank.bank.Cliente;
+import com.senaibank.senaibank.dto.ClienteDTO;
+import com.senaibank.senaibank.dto.ClienteUpdateDTO;
 import com.senaibank.senaibank.service.ClienteService;
 
 
